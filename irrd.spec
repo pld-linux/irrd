@@ -68,7 +68,7 @@ Requires:	%{name} = %{version}-%{release}
 %description cacher
 Irrdcacher retrieves remote database files for the IRRd cache.
 Irrdcacher is used to retrieve database copies that are not mirrored.
-The irrdcacher software package differs from ftp in that it can
+The irrdcacher software package differs from FTP in that it can
 convert RIPE181 databases to RPSL databases, recognize the databases
 that make up the IRR and automatically unzip them and send a cache
 refresh signal to IRRd.
@@ -76,7 +76,7 @@ refresh signal to IRRd.
 %description cacher -l pl
 Irrdcacher odtwarza pliki pliki zdalnej bazy danych dla cache IRRd.
 Jest u¿ywany do odtwarzania kopii bazy danych, która nie jest
-mirrorowana. Pakiet ró¿ni siê od tego z ftp tym, ¿e potrafi
+mirrorowana. Pakiet ró¿ni siê od tego z FTP tym, ¿e potrafi
 konwertowaæ bazy danych RIPE181 na RPSL, rozpoznawaæ bazy danych
 tworz±ce IRR, automatycznie rozpakowywaæ je i wysy³aæ sygna³
 od¶wie¿enia cache do IRRd.
