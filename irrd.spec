@@ -17,6 +17,7 @@ Patch1:		%{name}-bison.patch
 URL:		http://www.irrd.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	bison
 PreReq:		rc-scripts
 Requires(post,preun): /sbin/chkconfig
 Requires:	setup >= 2.2.4-1.4
@@ -83,8 +84,8 @@ od¶wie¿enia cache do IRRd.
 %prep
 %setup -q -n %{name}%{version}
 %patch0 -p1
-# quick dirty hack... 
-%patch1 -p1 
+# quick dirty hack...
+%patch1 -p1
 
 %build
 cd src
@@ -96,7 +97,7 @@ rm -f missing
 %configure \
 	--with-gdbm \
 	--enable-ipv6 \
-	--enable-threads 
+	--enable-threads
 
 %{__make}
 
@@ -131,15 +132,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add irrd
-if [ -f /var/lock/subsys/irrd ]; then 
+if [ -f /var/lock/subsys/irrd ]; then
 	/etc/rc.d/init.d/irrd restart >&2
 else
 	echo "Run \"/etc/rc.d/init.d/irrd start\" to start irrd daemon." >&2
 fi
 
 %preun
-if [ "$1" = "0" ]; then 
-	if [ -f /var/lock/subsys/irrd ]; then 
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/irrd ]; then
 		/etc/rc.d/init.d/irrd stop >&2
 	fi
 	/sbin/chkconfig --del irrd
@@ -147,19 +148,19 @@ fi
 
 %post submit-inetd
 if [ -f /var/lock/subsys/rc-inetd ]; then
-        /etc/rc.d/init.d/rc-inetd reload 1>&2
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
 else
-        echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
 fi
 
 %postun submit-inetd
 if [ -f /var/lock/subsys/rc-inetd ]; then
-        /etc/rc.d/init.d/rc-inetd reload 1>&2
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
 fi
 
 %files
 %defattr(644,root,root,755)
-%doc COPYRIGHT irrd-user.pdf samples/irrd.conf.sample NOTES README 
+%doc COPYRIGHT irrd-user.pdf samples/irrd.conf.sample NOTES README
 %doc src/programs/IRRd/COMMANDS.INFO
 %attr(755,root,root) %{_sbindir}/irr_check
 %attr(755,root,root) %{_sbindir}/irr_notify
