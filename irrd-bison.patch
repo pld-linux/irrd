@@ -1,0 +1,25 @@
+diff -Naur irrd2.1.5/src/programs/irr_rpsl_check.orig/Makefile irrd2.1.5/src/programs/irr_rpsl_check/Makefile
+--- irrd2.1.5/src/programs/irr_rpsl_check.orig/Makefile	Thu Oct 18 17:29:38 2001
++++ irrd2.1.5/src/programs/irr_rpsl_check/Makefile	Wed Sep 24 20:53:00 2003
+@@ -21,6 +21,9 @@
+ 
+ lex.yy.c: rpsl.fl y.tab.c
+ 	$(LEX) rpsl.fl
++	@grep -v "#undef yy_set_bol" lex.yy.c > lex.yy.cc
++	@rm -f lex.yy.c
++	@mv lex.yy.cc lex.yy.c
+ 
+ y.tab.c: rpsl.y
+ 	$(YACC) -v -d rpsl.y
+diff -Naur irrd2.1.5/src/programs/irr_rpsl_check.orig/rpsl.y irrd2.1.5/src/programs/irr_rpsl_check/rpsl.y
+--- irrd2.1.5/src/programs/irr_rpsl_check.orig/rpsl.y	Thu Oct 17 22:22:10 2002
++++ irrd2.1.5/src/programs/irr_rpsl_check/rpsl.y	Wed Sep 24 20:50:24 2003
+@@ -822,7 +822,7 @@
+ attr_mnt_nfy: T_MN_KEY T_EMAIL T_NEWLINE { $$ = $2; };
+ attr_auth: T_AT_KEY auth_line T_NEWLINE  { $$ = $2; };
+ 
+-auth_line: T_KCHEXID { $$ = $1; };
++auth_line: T_KCHEXID { $$ = $1; }
+   | T_MAILFROM T_BLOB
+     { regex_syntax ($2, &curr_obj); 
+       $$ = my_strcat (&curr_obj, 3, 02, $1, " ", $2); 

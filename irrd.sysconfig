@@ -1,0 +1,8 @@
+# Customized setings for IRRd
+
+# Nice level for apache
+SERVICE_RUN_NICE_LEVEL="+5"
+
+# Cmdline options 
+IRRD_OPTS=""
+
