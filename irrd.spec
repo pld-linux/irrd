@@ -1,12 +1,12 @@
 Summary:	IRRd - Internet Routing Registry Daemon
 Summary(pl):	IRRd - demon Internet Routing Registry
 Name:		irrd
-Version:	2.2b31
-Release:	0.5
+Version:	2.2.2
+Release:	1
 License:	BSD-like
 Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
-# Source0-md5:	07b583bdf133332d47461fbcb5d0b78c
+# Source0-md5:	665799d6810ec28a3f611a9bd8d65979
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.inetd
