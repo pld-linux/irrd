@@ -1,11 +1,8 @@
-
-%define _rel 0.4
-
 Summary:	IRRd - Internet Routing Registry Daemon
 Summary(pl):	IRRd - demon Internet Routing Registry
 Name:		irrd
 Version:	2.1.5
-Release:	%{_rel}
+Release:	0.4
 License:	BSD-like
 Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
@@ -20,8 +17,9 @@ Patch1:		%{name}-bison.patch
 URL:		http://www.irrd.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
-Requires:	setup >= 2.2.4-1.4
+PreReq:		rc-scripts
 Requires(post,preun): /sbin/chkconfig
+Requires:	setup >= 2.2.4-1.4
 #Suggest:	%{name}-cacher
 #Suggest:	mailer
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -46,27 +44,41 @@ uwierzytelnianie/bezpieczeñstwo oraz powiadomienia.
 
 %package submit-inetd
 Summary:	IRRd - Internet Routing Registry Daemon - irr_rpsl_submit server
+Summary(pl):	IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
 Group:		Networking/Deamons
-Release:	%{_rel}
-Requires:	%{name} = %{version}-%{release}
 PreReq:		rc-inetd
+Requires:	%{name} = %{version}-%{release}
 
 %description submit-inetd
-irr_rpsl_submit server - you can update IRRd database via tcp connection
+irr_rpsl_submit server - you can update IRRd database via TCP
+connection.
+
+%description submit-inetd -l pl
+Serwer irr_rpsl_submit - pozwala uaktualniæ bazê IRRd przez po³±czenie
+TCP.
 
 %package cacher
-Summary:	Irrdcacher retrieves remote database files for the IRRd cache.
+Summary:	Irrdcacher - retrieves remote database files for the IRRd cache
+Summary(pl):	Irrdcacher - odtwarzaj±cy pliki zdalnej bazy danych dla cache IRRd
 Group:		Networking/Deamons
-Release:	%{_rel}
 Requires:	%{name} = %{version}-%{release}
 
 %description cacher
 Irrdcacher retrieves remote database files for the IRRd cache.
 Irrdcacher is used to retrieve database copies that are not mirrored.
-The irrdcacher software package  differs from ftp in that it can 
-convert RIPE181 databases to RPSL databases, recognize the databases 
-that make up the IRR and automatically unzip them and send a cache 
+The irrdcacher software package differs from ftp in that it can
+convert RIPE181 databases to RPSL databases, recognize the databases
+that make up the IRR and automatically unzip them and send a cache
 refresh signal to IRRd.
+
+%description cacher -l pl
+Irrdcacher odtwarza pliki pliki zdalnej bazy danych dla cache IRRd.
+Jest u¿ywany do odtwarzania kopii bazy danych, która nie jest
+mirrorowana. Pakiet ró¿ni siê od tego z ftp tym, ¿e potrafi
+konwertowaæ bazy danych RIPE181 na RPSL, rozpoznawaæ bazy danych
+tworz±ce IRR, automatycznie rozpakowywaæ je i wysy³aæ sygna³
+od¶wie¿enia cache do IRRd.
+
 
 %prep
 %setup -q -n %{name}%{version}
@@ -81,7 +93,11 @@ rm -f missing
 %{__autoheader}
 %{__autoconf}
 
-%configure --with-gdbm --enable-ipv6 --enable-threads 
+%configure \
+	--with-gdbm \
+	--enable-ipv6 \
+	--enable-threads 
+
 %{__make}
 
 %install
@@ -97,11 +113,12 @@ install -d $RPM_BUILD_ROOT/var/lib/irrd
 install -d $RPM_BUILD_ROOT/var/log/irrd
 
 cd src
-%{__make} install DESTDIR=$RPM_BUILD_ROOT%{_sbindir}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT%{_sbindir}
 
-cp programs/IRRd/irrd.8 $RPM_BUILD_ROOT%{_mandir}/man8/
-cp programs/irrdcacher/irrdcacher $RPM_BUILD_ROOT%{_sbindir}/
-cp programs/irrdcacher/ripe2rpsl $RPM_BUILD_ROOT%{_bindir}/
+cp programs/IRRd/irrd.8 $RPM_BUILD_ROOT%{_mandir}/man8
+cp programs/irrdcacher/irrdcacher $RPM_BUILD_ROOT%{_sbindir}
+cp programs/irrdcacher/ripe2rpsl $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/irrd
@@ -113,19 +130,11 @@ install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/irrd
 rm -rf $RPM_BUILD_ROOT
 
 %post
-umask 022
 /sbin/chkconfig --add irrd
 if [ -f /var/lock/subsys/irrd ]; then 
 	/etc/rc.d/init.d/irrd restart >&2
 else
 	echo "Run \"/etc/rc.d/init.d/irrd start\" to start irrd daemon." >&2
-fi
-
-%post submit-inetd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-        /etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-        echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
 fi
 
 %preun
@@ -136,11 +145,17 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del irrd
 fi
 
+%post submit-inetd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+        /etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+        echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
+fi
+
 %postun submit-inetd
 if [ -f /var/lock/subsys/rc-inetd ]; then
         /etc/rc.d/init.d/rc-inetd reload 1>&2
 fi
-
 
 %files
 %defattr(644,root,root,755)
@@ -153,16 +168,16 @@ fi
 %{_mandir}/man8/*
 
 %attr(754,root,root) %{_initrddir}/irrd
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/sysconfig/irrd
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/irrd.conf
-%config %{_sysconfdir}/logrotate.d/irrd
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/sysconfig/irrd
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/irrd.conf
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/logrotate.d/irrd
 
 %dir %attr(750,root,root) /var/lib/irrd
 %dir %attr(750,root,root) /var/log/irrd
 
 %files submit-inetd
 %defattr(644,root,root,755)
-%attr(640,root,root) %config %{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
 
 %files cacher
 %defattr(644,root,root,755)
