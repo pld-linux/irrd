@@ -1,0 +1,9 @@
+SERVICE_NAME=irr_rpsl_submit 
+SOCK_TYPE=stream
+PROTOCOL=tcp
+PORT=8888
+FLAGS=nowait
+USER=daemon
+SERVER=tcpd
+DAEMON=/usr/sbin/irr_rpsl_submit 
+DAEMONARGS=-D
