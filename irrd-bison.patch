@@ -1,0 +1,13 @@
+diff -Naur irrd2.2b31.orig/src/programs/irr_rpsl_check/Makefile irrd2.2b31/src/programs/irr_rpsl_check/Makefile
+--- irrd2.2b31.orig/src/programs/irr_rpsl_check/Makefile	2002-11-27 18:38:22.000000000 +0100
++++ irrd2.2b31/src/programs/irr_rpsl_check/Makefile	2004-09-22 12:58:37.940596352 +0200
+@@ -21,6 +21,9 @@
+ 
+ lex.yy.c: rpsl.fl y.tab.c
+ 	$(LEX) rpsl.fl
++	@grep -v "#undef yy_set_bol" lex.yy.c > lex.yy.cc
++	@rm -f lex.yy.c
++	@mv lex.yy.cc lex.yy.c
+ 
+ y.tab.c: rpsl.y
+ 	$(YACC) -v -d rpsl.y
