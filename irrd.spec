@@ -3,9 +3,9 @@ Name:		irrd
 Version:	2.1.5
 Release:	0.1
 License:	BSD-like
-Group:		Networking/Deamon
-######		Unknown group!
+Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
+# Source0-md5:	49a6e471b1e9b65ae8ebcdbb9ee4341b
 Patch0:		%{name}-install.patch
 URL:		http://www.irrd.net
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
