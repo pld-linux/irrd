@@ -2,7 +2,7 @@ Summary:	IRRd - Internet Routing Registry Daemon
 Summary(pl):	IRRd - demon Internet Routing Registry
 Name:		irrd
 Version:	2.2b31
-Release:	0.4
+Release:	0.5
 License:	BSD-like
 Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
@@ -13,6 +13,7 @@ Source3:	%{name}.inetd
 Source4:	%{name}.logrotate
 Source5:	%{name}.conf
 Patch0:		%{name}-install.patch
+Patch1:		%{name}-bison.patch
 URL:		http://www.irrd.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -85,6 +86,7 @@ od¶wie¿enia cache do IRRd.
 %setup -q -n %{name}%{version}
 %patch0 -p1
 # quick dirty hack...
+%patch1 -p1 
 
 %build
 cd src
@@ -102,6 +104,7 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
+rm src/programs/irr_util/.templates.config.swp
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_mandir}/man8,%{_initrddir}} \
 	$RPM_BUILD_ROOT{%{_sysconfdir}/{sysconfig{,/rc-inetd},logrotate.d},/var/{lib,log}/irrd}
 
@@ -154,8 +157,9 @@ fi
 %defattr(644,root,root,755)
 %doc COPYRIGHT irrd-user.pdf samples/irrd.conf.sample NOTES README
 %doc src/programs/IRRd/COMMANDS.INFO
-%attr(755,root,root) %{_sbindir}/irr_check
+%doc src/programs/irr_util
 %attr(755,root,root) %{_sbindir}/irr_notify
+%attr(755,root,root) %{_sbindir}/irr_rpsl_check
 %attr(755,root,root) %{_sbindir}/irr_rpsl_submit
 %attr(755,root,root) %{_sbindir}/irrd
 %{_mandir}/man8/*
