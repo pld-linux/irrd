@@ -102,15 +102,8 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_mandir}/man8
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig{,/rc-inetd}
-install -d $RPM_BUILD_ROOT%{_initrddir}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
-
-install -d $RPM_BUILD_ROOT/var/lib/irrd
-install -d $RPM_BUILD_ROOT/var/log/irrd
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_mandir}/man8,%{_initrddir}} \
+	$RPM_BUILD_ROOT{%{_sysconfdir}/{sysconfig{,/rc-inetd},logrotate.d},/var/{lib,log}/irrd}
 
 cd src
 %{__make} install \
