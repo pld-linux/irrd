@@ -7,7 +7,9 @@ Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
 # Source0-md5:	49a6e471b1e9b65ae8ebcdbb9ee4341b
 Patch0:		%{name}-install.patch
-URL:		http://www.irrd.net
+URL:		http://www.irrd.net/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
