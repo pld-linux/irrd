@@ -1,5 +1,5 @@
 
-%define _rel 0.3
+%define _rel 0.4
 
 Summary:	IRRd - Internet Routing Registry Daemon
 Summary(pl):	IRRd - demon Internet Routing Registry
@@ -11,13 +11,17 @@ Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.inetd
 # Source0-md5:	49a6e471b1e9b65ae8ebcdbb9ee4341b
 Patch0:		%{name}-install.patch
 Patch1:		%{name}-bison.patch
 URL:		http://www.irrd.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
+Requires:	setup >= 2.2.4-1.4
 Requires(post,preun): /sbin/chkconfig
+#Suggest:	%{name}-cacher
+#Suggest:	mailer
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -38,12 +42,23 @@ automatyczny mirroring innych baz danych IRR dzia³aj±cy niemal w
 czasie rzeczywistym, kontrolê sk³adni przy uaktualnianiu,
 uwierzytelnianie/bezpieczeñstwo oraz powiadomienia.
 
-%package -n %{name}-cacher
+%package submit-inetd
+Summary:	IRRd - Internet Routing Registry Daemon - irr_rpsl_submit server
+Group:		Networking/Deamons
+Release:	%{_rel}
+Requires:	%{name} = %{version}-%{release}
+PreReq:		rc-inetd
+
+%description submit-inetd
+irr_rpsl_submit server - you can update IRRd database via tcp connection
+
+%package cacher
 Summary:	Irrdcacher retrieves remote database files for the IRRd cache.
 Group:		Networking/Deamons
 Release:	%{_rel}
+Requires:	%{name} = %{version}-%{release}
 
-%description -n %{name}-cacher
+%description cacher
 Irrdcacher retrieves remote database files for the IRRd cache.
 Irrdcacher is used to retrieve database copies that are not mirrored.
 The irrdcacher software package  differs from ftp in that it can 
@@ -72,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sbindir}
 install -d $RPM_BUILD_ROOT%{_bindir}
 install -d $RPM_BUILD_ROOT%{_mandir}/man8
-install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig{,/rc-inetd},rc.d/init.d}
 
 install -d $RPM_BUILD_ROOT/var/lib/irrd
 
@@ -83,8 +98,9 @@ cp programs/IRRd/irrd.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 cp programs/irrdcacher/irrdcacher $RPM_BUILD_ROOT%{_sbindir}/
 cp programs/irrdcacher/ripe2rpsl $RPM_BUILD_ROOT%{_bindir}/
 
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irrd
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irrd
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/irrd
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/irrd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,6 +114,13 @@ else
 	echo "Run \"/etc/rc.d/init.d/irrd start\" to start irrd daemon." >&2
 fi
 
+%post submit-inetd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+        /etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+        echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
+fi
+
 %preun
 if [ "$1" = "0" ]; then 
 	if [ -f /var/lock/subsys/irrd ]; then 
@@ -105,6 +128,12 @@ if [ "$1" = "0" ]; then
 	fi
 	/sbin/chkconfig --del irrd
 fi
+
+%postun submit-inetd
+if [ -f /var/lock/subsys/rc-inetd ]; then
+        /etc/rc.d/init.d/rc-inetd reload 1>&2
+fi
+
 
 %files
 %defattr(644,root,root,755)
@@ -121,7 +150,11 @@ fi
 
 %dir %attr(750,root,root) /var/lib/irrd
 
-%files -n %{name}-cacher
+%files submit-inetd
+%defattr(644,root,root,755)
+%attr(640,root,root) %config %{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
+
+%files cacher
 %defattr(644,root,root,755)
 %doc src/programs/irrdcacher/README src/programs/irrdcacher/sample-cron
 %doc src/programs/irrdcacher/update_source
