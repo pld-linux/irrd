@@ -1,23 +1,23 @@
 Summary:	IRRd - Internet Routing Registry Daemon
 Summary(pl):	IRRd - demon Internet Routing Registry
 Name:		irrd
-Version:	2.1.5
+Version:	2.2b31
 Release:	0.4
 License:	BSD-like
 Group:		Networking/Deamons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
+# Source0-md5:	07b583bdf133332d47461fbcb5d0b78c
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.inetd
 Source4:	%{name}.logrotate
 Source5:	%{name}.conf
-# Source0-md5:	49a6e471b1e9b65ae8ebcdbb9ee4341b
 Patch0:		%{name}-install.patch
-Patch1:		%{name}-bison.patch
 URL:		http://www.irrd.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
+BuildRequires:	flex
 PreReq:		rc-scripts
 Requires(post,preun): /sbin/chkconfig
 Requires:	setup >= 2.2.4-1.4
@@ -85,7 +85,6 @@ od¶wie¿enia cache do IRRd.
 %setup -q -n %{name}%{version}
 %patch0 -p1
 # quick dirty hack...
-%patch1 -p1
 
 %build
 cd src
@@ -183,6 +182,5 @@ fi
 %files cacher
 %defattr(644,root,root,755)
 %doc src/programs/irrdcacher/README src/programs/irrdcacher/sample-cron
-%doc src/programs/irrdcacher/update_source
 %attr(755,root,root) %{_sbindir}/irrdcacher
 %attr(755,root,root) %{_bindir}/ripe2rpsl
