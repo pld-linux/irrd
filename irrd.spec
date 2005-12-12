@@ -4,7 +4,7 @@ Name:		irrd
 Version:	2.2.2
 Release:	1
 License:	BSD-like
-Group:		Networking/Deamons
+Group:		Networking/Daemons
 Source0:	http://www.irrd.net/%{name}%{version}.tgz
 # Source0-md5:	665799d6810ec28a3f611a9bd8d65979
 Source1:	%{name}.init
@@ -19,8 +19,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-PreReq:		rc-scripts
 Requires(post,preun): /sbin/chkconfig
+Requires:	rc-scripts
 Requires:	setup >= 2.2.4-1.4
 #Suggest:	%{name}-cacher
 #Suggest:	mailer
@@ -35,9 +35,9 @@ including: automated near real-time mirroring of other IRR databases,
 update syntax checking, authentication/security, and notification.
 
 %description -l pl
-IRRd to wolnodostêpny, samodzielny serwer bazy danych Internet
-Routing Registry (rejestru tras internetowych). IRRd obs³uguje
-sk³adniê rejestru tras (routingu) RPSL.
+IRRd to wolnodostêpny, samodzielny serwer bazy danych Internet Routing
+Registry (rejestru tras internetowych). IRRd obs³uguje sk³adniê
+rejestru tras (routingu) RPSL.
 
 Pakiet IRRd zawiera wszystkie wymagane us³ugi wspieraj±ce IRR, w tym:
 automatyczny mirroring innych baz danych IRR dzia³aj±cy niemal w
@@ -47,9 +47,9 @@ uwierzytelnianie/bezpieczeñstwo oraz powiadomienia.
 %package submit-inetd
 Summary:	IRRd - Internet Routing Registry Daemon - irr_rpsl_submit server
 Summary(pl):	IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
-Group:		Networking/Deamons
-PreReq:		rc-inetd
+Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
+Requires:	rc-inetd
 
 %description submit-inetd
 irr_rpsl_submit server - you can update IRRd database via TCP
@@ -62,7 +62,7 @@ TCP.
 %package cacher
 Summary:	Irrdcacher - retrieves remote database files for the IRRd cache
 Summary(pl):	Irrdcacher - odtwarzaj±cy pliki zdalnej bazy danych dla cache IRRd
-Group:		Networking/Deamons
+Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
 %description cacher
@@ -86,7 +86,7 @@ od¶wie¿enia cache do IRRd.
 %setup -q -n %{name}%{version}
 %patch0 -p1
 # quick dirty hack...
-%patch1 -p1 
+%patch1 -p1
 
 %build
 cd src
@@ -165,16 +165,16 @@ fi
 %{_mandir}/man8/*
 
 %attr(754,root,root) %{_initrddir}/irrd
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/sysconfig/irrd
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/irrd.conf
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/logrotate.d/irrd
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/irrd
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/irrd.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/irrd
 
 %dir %attr(750,root,root) /var/lib/irrd
 %dir %attr(750,root,root) /var/log/irrd
 
 %files submit-inetd
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/irr_rpsl_submit
 
 %files cacher
 %defattr(644,root,root,755)
