@@ -19,11 +19,12 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-Requires(post,preun): /sbin/chkconfig
+BuildRequires:	rpmbuild(macros) >= 1.268
+Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 Requires:	setup >= 2.2.4-1.4
-#Suggest:	%{name}-cacher
-#Suggest:	mailer
+#Suggests:	%{name}-cacher
+#Suggests:	mailer
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -127,30 +128,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add irrd
-if [ -f /var/lock/subsys/irrd ]; then
-	/etc/rc.d/init.d/irrd restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/irrd start\" to start irrd daemon." >&2
-fi
+%service irrd restart "irrd daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/irrd ]; then
-		/etc/rc.d/init.d/irrd stop >&2
-	fi
+	%service irrd stop
 	/sbin/chkconfig --del irrd
 fi
 
 %post submit-inetd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun submit-inetd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
+if [ "$1" = 0 ]; then
+	%service -q rc-inetd reload
 fi
 
 %files
