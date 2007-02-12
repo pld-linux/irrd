@@ -1,5 +1,5 @@
 Summary:	IRRd - Internet Routing Registry Daemon
-Summary(pl):	IRRd - demon Internet Routing Registry
+Summary(pl.UTF-8):   IRRd - demon Internet Routing Registry
 Name:		irrd
 Version:	2.2.2
 Release:	1
@@ -35,19 +35,19 @@ The IRRd package includes all required IRR support services,
 including: automated near real-time mirroring of other IRR databases,
 update syntax checking, authentication/security, and notification.
 
-%description -l pl
-IRRd to wolnodostêpny, samodzielny serwer bazy danych Internet Routing
-Registry (rejestru tras internetowych). IRRd obs³uguje sk³adniê
+%description -l pl.UTF-8
+IRRd to wolnodostÄ™pny, samodzielny serwer bazy danych Internet Routing
+Registry (rejestru tras internetowych). IRRd obsÅ‚uguje skÅ‚adniÄ™
 rejestru tras (routingu) RPSL.
 
-Pakiet IRRd zawiera wszystkie wymagane us³ugi wspieraj±ce IRR, w tym:
-automatyczny mirroring innych baz danych IRR dzia³aj±cy niemal w
-czasie rzeczywistym, kontrolê sk³adni przy uaktualnianiu,
-uwierzytelnianie/bezpieczeñstwo oraz powiadomienia.
+Pakiet IRRd zawiera wszystkie wymagane usÅ‚ugi wspierajÄ…ce IRR, w tym:
+automatyczny mirroring innych baz danych IRR dziaÅ‚ajÄ…cy niemal w
+czasie rzeczywistym, kontrolÄ™ skÅ‚adni przy uaktualnianiu,
+uwierzytelnianie/bezpieczeÅ„stwo oraz powiadomienia.
 
 %package submit-inetd
 Summary:	IRRd - Internet Routing Registry Daemon - irr_rpsl_submit server
-Summary(pl):	IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
+Summary(pl.UTF-8):   IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 Requires:	rc-inetd
@@ -56,13 +56,13 @@ Requires:	rc-inetd
 irr_rpsl_submit server - you can update IRRd database via TCP
 connection.
 
-%description submit-inetd -l pl
-Serwer irr_rpsl_submit - pozwala uaktualniæ bazê IRRd przez po³±czenie
+%description submit-inetd -l pl.UTF-8
+Serwer irr_rpsl_submit - pozwala uaktualniÄ‡ bazÄ™ IRRd przez poÅ‚Ä…czenie
 TCP.
 
 %package cacher
 Summary:	Irrdcacher - retrieves remote database files for the IRRd cache
-Summary(pl):	Irrdcacher - odtwarzaj±cy pliki zdalnej bazy danych dla cache IRRd
+Summary(pl.UTF-8):   Irrdcacher - odtwarzajÄ…cy pliki zdalnej bazy danych dla cache IRRd
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
@@ -74,13 +74,13 @@ convert RIPE181 databases to RPSL databases, recognize the databases
 that make up the IRR and automatically unzip them and send a cache
 refresh signal to IRRd.
 
-%description cacher -l pl
+%description cacher -l pl.UTF-8
 Irrdcacher odtwarza pliki pliki zdalnej bazy danych dla cache IRRd.
-Jest u¿ywany do odtwarzania kopii bazy danych, która nie jest
-mirrorowana. Pakiet ró¿ni siê od tego z FTP tym, ¿e potrafi
-konwertowaæ bazy danych RIPE181 na RPSL, rozpoznawaæ bazy danych
-tworz±ce IRR, automatycznie rozpakowywaæ je i wysy³aæ sygna³
-od¶wie¿enia cache do IRRd.
+Jest uÅ¼ywany do odtwarzania kopii bazy danych, ktÃ³ra nie jest
+mirrorowana. Pakiet rÃ³Å¼ni siÄ™ od tego z FTP tym, Å¼e potrafi
+konwertowaÄ‡ bazy danych RIPE181 na RPSL, rozpoznawaÄ‡ bazy danych
+tworzÄ…ce IRR, automatycznie rozpakowywaÄ‡ je i wysyÅ‚aÄ‡ sygnaÅ‚
+odÅ›wieÅ¼enia cache do IRRd.
 
 
 %prep
