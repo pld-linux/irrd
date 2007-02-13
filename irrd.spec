@@ -1,5 +1,5 @@
 Summary:	IRRd - Internet Routing Registry Daemon
-Summary(pl.UTF-8):   IRRd - demon Internet Routing Registry
+Summary(pl.UTF-8):	IRRd - demon Internet Routing Registry
 Name:		irrd
 Version:	2.2.2
 Release:	1
@@ -47,7 +47,7 @@ uwierzytelnianie/bezpieczeństwo oraz powiadomienia.
 
 %package submit-inetd
 Summary:	IRRd - Internet Routing Registry Daemon - irr_rpsl_submit server
-Summary(pl.UTF-8):   IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
+Summary(pl.UTF-8):	IRRd - demon Internet Routing Registry - serwer irr_rpsl_submit
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 Requires:	rc-inetd
@@ -62,7 +62,7 @@ TCP.
 
 %package cacher
 Summary:	Irrdcacher - retrieves remote database files for the IRRd cache
-Summary(pl.UTF-8):   Irrdcacher - odtwarzający pliki zdalnej bazy danych dla cache IRRd
+Summary(pl.UTF-8):	Irrdcacher - odtwarzający pliki zdalnej bazy danych dla cache IRRd
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
