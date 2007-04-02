@@ -1,8 +1,8 @@
 /var/log/irrd/server.log {
-    olddir /var/log/archiv/irrd
+    olddir /var/log/archive/irrd
     create 640 root root
 }
 /var/log/irrd/submission.log {
-    olddir /var/log/archiv/irrd
+    olddir /var/log/archive/irrd
     create 640 root root
 }
