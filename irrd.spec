@@ -23,6 +23,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 Requires:	setup >= 2.2.4-1.4
+Conflicts:	logrotate < 3.7.4
 #Suggests:	%{name}-cacher
 #Suggests:	mailer
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -158,7 +159,7 @@ fi
 %attr(754,root,root) %{_initrddir}/irrd
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/irrd
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/irrd.conf
-%config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/irrd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/irrd
 
 %dir %attr(750,root,root) /var/lib/irrd
 %dir %attr(750,root,root) /var/log/irrd
