@@ -23,7 +23,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 Requires:	setup >= 2.2.4-1.4
-Conflicts:	logrotate < 3.7.4
+Conflicts:	logrotate < 3.7-4
 #Suggests:	%{name}-cacher
 #Suggests:	mailer
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
