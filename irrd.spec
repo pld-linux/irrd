@@ -107,7 +107,7 @@ rm -f missing
 %install
 rm -rf $RPM_BUILD_ROOT
 rm src/programs/irr_util/.templates.config.swp
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_mandir}/man8,%{_initrddir}} \
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_mandir}/man8,/etc/rc.d/init.d} \
 	$RPM_BUILD_ROOT{%{_sysconfdir}/{sysconfig{,/rc-inetd},logrotate.d},/var/{lib,log}/irrd}
 
 cd src
@@ -120,7 +120,7 @@ cp programs/irrdcacher/ripe2rpsl $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-inetd/irr_rpsl_submit
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/irrd
-install %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/irrd
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irrd
 install %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/irrd.conf
 install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/irrd
 
@@ -156,7 +156,7 @@ fi
 %attr(755,root,root) %{_sbindir}/irrd
 %{_mandir}/man8/*
 
-%attr(754,root,root) %{_initrddir}/irrd
+%attr(754,root,root) /etc/rc.d/init.d/irrd
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/irrd
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/irrd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/irrd
