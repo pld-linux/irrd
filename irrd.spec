@@ -86,9 +86,9 @@ odświeżenia cache do IRRd.
 
 %prep
 %setup -q -n %{name}%{version}
-%patch0 -p1
+%patch -P0 -p1
 # quick dirty hack...
-%patch1 -p1
+%patch -P1 -p1
 
 %build
 cd src
